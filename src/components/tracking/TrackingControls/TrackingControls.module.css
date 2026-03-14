@@ -1,0 +1,129 @@
+.controls {
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.gpsStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+}
+
+.gpsActive {
+  color: var(--color-secondary);
+}
+
+.gpsInactive {
+  color: var(--color-text-secondary);
+}
+
+.gpsText {
+  color: var(--color-text-secondary);
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+.progressLabel {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.progressValue {
+  color: var(--color-text-secondary);
+}
+
+.progressBarTrack {
+  height: 8px;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.startBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-secondary);
+  color: white;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.startBtn:hover {
+  background-color: #059669;
+}
+
+.startBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stopBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-danger);
+  color: white;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.stopBtn:hover {
+  background-color: #dc2626;
+}
+
+.completedBanner {
+  text-align: center;
+  padding: var(--space-3);
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  color: var(--color-secondary);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}

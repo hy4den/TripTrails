@@ -1,0 +1,62 @@
+.badgeSection {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.empty {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-3);
+}
+
+.badgeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  text-align: center;
+  transition: transform 0.15s;
+}
+
+.badgeCard:hover {
+  transform: translateY(-2px);
+}
+
+.earned {
+  background-color: rgba(245, 158, 11, 0.08);
+  border-color: var(--color-accent);
+}
+
+.earned .badgeIcon {
+  color: var(--color-accent);
+}
+
+.locked {
+  background-color: var(--color-bg-secondary);
+  opacity: 0.4;
+}
+
+.locked .badgeIcon {
+  color: var(--color-text-secondary);
+}
+
+.badgeLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text);
+}

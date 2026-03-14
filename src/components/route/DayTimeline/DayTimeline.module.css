@@ -1,0 +1,203 @@
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.daySection {
+  border-left: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  transition: border-left-color 0.2s;
+}
+
+.daySectionActive {
+  background-color: var(--color-bg-secondary);
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-radius: var(--radius-md);
+}
+
+.dayHeader:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.dayCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dayLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  flex: 1;
+}
+
+.pinCount {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-secondary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+.dayBudget {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.removeDayBtn {
+  color: var(--color-text-secondary);
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background-color 0.15s;
+  opacity: 0;
+}
+
+.dayHeader:hover .removeDayBtn {
+  opacity: 1;
+}
+
+.removeDayBtn:hover {
+  color: var(--color-danger);
+  background-color: #fef2f2;
+}
+
+.pinList {
+  padding: 0 var(--space-3) var(--space-3) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pinItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s;
+}
+
+.pinItem:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.pinItemSelected {
+  background-color: #eff6ff;
+}
+
+.pinName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.pinName span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pinMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-right: var(--space-2);
+}
+
+.pinPhotoCount {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+}
+
+.pinBudget {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.pinActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.pinItem:hover .pinActions {
+  opacity: 1;
+}
+
+.reorderBtn {
+  color: var(--color-text-secondary);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+}
+
+.reorderBtn:hover:not(:disabled) {
+  color: var(--color-primary);
+}
+
+.reorderBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.removePinBtn {
+  color: var(--color-text-secondary);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+}
+
+.removePinBtn:hover {
+  color: var(--color-danger);
+}
+
+.addDayBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all 0.2s;
+  margin-top: var(--space-2);
+}
+
+.addDayBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: #eff6ff;
+}

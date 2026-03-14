@@ -1,0 +1,198 @@
+.page {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+.sidebar {
+  width: 350px;
+  padding: var(--space-6);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.mapArea {
+  flex: 1;
+  position: relative;
+}
+
+.sidebarHeader {
+  flex-shrink: 0;
+  margin-bottom: var(--space-4);
+}
+
+.routeTitle {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.routeTitle:focus {
+  border-color: var(--color-primary);
+}
+
+.routeTitle::placeholder {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.editBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: #eff6ff;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-dark);
+}
+
+.editBannerIcon {
+  flex-shrink: 0;
+}
+
+.routeDescription {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  outline: none;
+  resize: vertical;
+  min-height: 48px;
+  margin-bottom: var(--space-4);
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.routeDescription:focus {
+  border-color: var(--color-primary);
+}
+
+.routeDescription::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.locationRow {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.locationSelectWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.locationSelect {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-2) center;
+  padding-right: var(--space-6);
+}
+
+.locationSelect:focus {
+  border-color: var(--color-primary);
+}
+
+.locationSelect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sidebarContent {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebarFooter {
+  flex-shrink: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-4);
+}
+
+.saveError {
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  margin-bottom: var(--space-3);
+}
+
+.saveStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-success, #10b981);
+  margin-bottom: var(--space-3);
+}
+
+.saveActions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background-color: var(--color-border);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.publishBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: white;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.publishBtn:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+}
+
+.publishBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

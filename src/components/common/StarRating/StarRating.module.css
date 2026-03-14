@@ -1,0 +1,25 @@
+.stars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star {
+  color: var(--color-border);
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.starFilled {
+  color: var(--color-accent);
+}
+
+.starReadonly {
+  cursor: default;
+}
+
+.star:not(.starReadonly):hover {
+  color: var(--color-accent);
+}

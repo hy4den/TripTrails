@@ -1,0 +1,50 @@
+.pinMarker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.15s ease, opacity 0.3s ease;
+}
+
+.visited {
+  opacity: 1;
+}
+
+.unvisited {
+  opacity: 0.5;
+}
+
+.pinMarker:hover {
+  transform: rotate(-45deg) scale(1.15);
+}
+
+.pinLabel {
+  transform: rotate(45deg);
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  user-select: none;
+}
+
+.checkIcon {
+  transform: rotate(45deg);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse {
+  animation: pulseAnimation 0.6s ease-in-out 3;
+}
+
+@keyframes pulseAnimation {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50% { transform: rotate(-45deg) scale(1.3); }
+}

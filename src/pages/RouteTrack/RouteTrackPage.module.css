@@ -1,0 +1,166 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+}
+
+.loadingText {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--space-8);
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  gap: var(--space-3);
+}
+
+.backLink {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.backBtn:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mapSection {
+  flex: 1;
+  min-height: 0;
+}
+
+.controlsPanel {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pinChecklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dayGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.dayCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dayLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.checklistItems {
+  list-style: none;
+  margin-left: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background-color 0.15s;
+}
+
+.checklistItem:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.checklistItemVisited {
+  color: var(--color-text);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.checked {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: white;
+}
