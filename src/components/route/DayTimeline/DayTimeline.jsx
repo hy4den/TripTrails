@@ -38,7 +38,7 @@ export default function DayTimeline({
               <div className={styles.dayCircle} style={{ backgroundColor: color }}>
                 {day.dayNumber}
               </div>
-              <span className={styles.dayLabel}>Gun {day.dayNumber}</span>
+              <span className={styles.dayLabel}>Gün {day.dayNumber}</span>
               {dayPins.length > 0 && (
                 <span className={styles.pinCount}>{dayPins.length} pin</span>
               )}
@@ -54,7 +54,7 @@ export default function DayTimeline({
                     e.stopPropagation();
                     onRemoveDay(day.dayNumber);
                   }}
-                  title="Gunu sil"
+                  title="Günü sil"
                 >
                   <FiTrash2 size={14} />
                 </button>
@@ -75,7 +75,7 @@ export default function DayTimeline({
                         onClick={() => onPinClick(pin.id)}
                       >
                         <FiMapPin size={12} style={{ color, flexShrink: 0 }} />
-                        <span>{pin.placeName || 'Isimsiz Konum'}</span>
+                        <span>{pin.placeName || 'İsimsiz Konum'}</span>
                       </button>
                       <div className={styles.pinMeta}>
                         {photoCount > 0 && (
@@ -94,7 +94,7 @@ export default function DayTimeline({
                           className={styles.reorderBtn}
                           onClick={() => onPinReorder(pin.id, 'up')}
                           disabled={pin.orderIndex === 0}
-                          title="Yukari tasi"
+                          title="Yukarı taşı"
                         >
                           <FiChevronUp size={14} />
                         </button>
@@ -102,7 +102,7 @@ export default function DayTimeline({
                           className={styles.reorderBtn}
                           onClick={() => onPinReorder(pin.id, 'down')}
                           disabled={pin.orderIndex === dayPins.length - 1}
-                          title="Asagi tasi"
+                          title="Aşağı taşı"
                         >
                           <FiChevronDown size={14} />
                         </button>
@@ -126,7 +126,7 @@ export default function DayTimeline({
       {days.length < MAX_DAYS && (
         <button className={styles.addDayBtn} onClick={onAddDay}>
           <FiPlus size={16} />
-          Gun Ekle
+          Gün Ekle
         </button>
       )}
     </div>

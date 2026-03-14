@@ -1,0 +1,138 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.container.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  min-height: 36px;
+  gap: var(--space-1);
+}
+
+.trigger:hover {
+  border-color: var(--color-primary);
+}
+
+.triggerOpen {
+  border-color: var(--color-primary);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.selectedLabel {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.placeholderText {
+  flex: 1;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  padding: 0 2px;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.clearBtn:hover {
+  color: var(--color-danger);
+}
+
+.caret {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  transition: transform 0.15s;
+  display: inline-block;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 200;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.option {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.option:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.optionSelected {
+  color: var(--color-primary);
+  font-weight: 500;
+  background-color: var(--color-bg-secondary);
+}
+
+.noResults {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  list-style: none;
+}

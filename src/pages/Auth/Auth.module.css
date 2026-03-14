@@ -11,12 +11,18 @@
 
 .authCard {
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   padding: var(--space-8);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-xl);
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
 }
 
 .authTitle {
@@ -44,6 +50,8 @@
 }
 
 .inputGroup input {
+  width: 100%;
+  box-sizing: border-box;
   padding: var(--space-3) var(--space-4);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -141,4 +149,21 @@
   font-size: var(--font-size-sm);
   text-align: center;
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 520px) {
+  .authPage {
+    padding: var(--space-4);
+    align-items: flex-start;
+    padding-top: var(--space-8);
+  }
+
+  .authCard {
+    padding: var(--space-6) var(--space-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
 }

@@ -15,17 +15,20 @@
   font-size: var(--font-size-2xl);
   font-weight: 700;
   color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 /* ─── Search ─────────────────────────────────────────── */
-.searchSection {
-  margin-bottom: var(--space-6);
-}
-
 .searchWrap {
   position: relative;
   display: flex;
   align-items: center;
+  margin-bottom: var(--space-6);
 }
 
 .searchIcon {
@@ -66,8 +69,8 @@
 
 .clearBtn:hover { color: var(--color-text); }
 
-.searchResults {
-  margin-top: var(--space-2);
+/* ─── Results ────────────────────────────────────────── */
+.results {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-bg);
@@ -75,14 +78,6 @@
   box-shadow: var(--shadow-md);
 }
 
-.searchHint {
-  padding: var(--space-4);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  text-align: center;
-}
-
-/* ─── User Row ───────────────────────────────────────── */
 .userRow {
   display: flex;
   align-items: center;
@@ -239,154 +234,7 @@
 
 .btnUnfollow:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* ─── Tabs ───────────────────────────────────────────── */
-.tabs {
-  display: flex;
-  border-bottom: 2px solid var(--color-border);
-  margin-bottom: var(--space-6);
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.tabs::-webkit-scrollbar { display: none; }
-
-.tab {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.tab:hover { color: var(--color-primary); }
-
-.tabActive {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
-  font-weight: 600;
-}
-
-.badge {
-  background-color: var(--color-border);
-  color: var(--color-text-secondary);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: var(--radius-full);
-}
-
-.badgePrimary {
-  background-color: var(--color-primary);
-  color: white;
-}
-
-/* ─── Friends Grid ───────────────────────────────────── */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--space-4);
-}
-
-.friendCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-6) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-bg-secondary);
-  transition: box-shadow 0.2s;
-}
-
-.friendCard:hover { box-shadow: var(--shadow-md); }
-
-.cardInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  text-decoration: none;
-  margin-bottom: var(--space-4);
-}
-
-.friendName {
-  font-weight: 600;
-  font-size: var(--font-size-sm);
-  color: var(--color-text);
-  text-align: center;
-}
-
-.cardActions {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.btnMessage {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btnMessage:hover:not(:disabled) { background-color: var(--color-primary-dark); }
-.btnMessage:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.btnRemove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btnRemove:hover:not(:disabled) { color: var(--color-danger); border-color: var(--color-danger); }
-.btnRemove:disabled { opacity: 0.6; cursor: not-allowed; }
-
-/* ─── Requests List ──────────────────────────────────── */
-.requestList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.requestRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-bg-secondary);
-  gap: var(--space-3);
-}
-
-/* ─── Empty ──────────────────────────────────────────── */
+/* ─── Empty / Hint ───────────────────────────────────── */
 .empty {
   display: flex;
   flex-direction: column;
@@ -412,7 +260,6 @@
 
 @media (max-width: 600px) {
   .page { padding: var(--space-4); }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .requestRow { flex-direction: column; align-items: flex-start; }
   .userRow { flex-direction: column; align-items: flex-start; }
+  .userActions { flex-wrap: wrap; }
 }

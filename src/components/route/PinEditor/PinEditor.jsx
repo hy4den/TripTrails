@@ -24,6 +24,7 @@ export default function PinEditor({
   pin,
   days,
   routeId,
+  isNew,
   onSave,
   onCancel,
   onDelete,
@@ -52,6 +53,13 @@ export default function PinEditor({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin?.id]);
 
+  const handleCancel = () => {
+    if (isNew && pin?.id) {
+      onDelete(pin.id);
+    }
+    onCancel();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
@@ -73,7 +81,7 @@ export default function PinEditor({
     const allowed = files.slice(0, MAX_PHOTOS_PER_PIN - currentCount);
 
     if (allowed.length === 0) {
-      setUploadError(`En fazla ${MAX_PHOTOS_PER_PIN} fotograf yuklenebilir.`);
+      setUploadError(`En fazla ${MAX_PHOTOS_PER_PIN} fotoğraf yüklenebilir.`);
       return;
     }
 
@@ -110,20 +118,20 @@ export default function PinEditor({
   const photos = pin?.photos || [];
 
   return (
-    <div className={styles.overlay} onClick={onCancel}>
+    <div className={styles.overlay} onClick={handleCancel}>
       <div className={styles.editor} onClick={(e) => e.stopPropagation()}>
         <div
           className={styles.headerBar}
           style={{ backgroundColor: getDayColor(dayNumber) }}
         />
         <h3 className={styles.title}>
-          {pin?.placeName ? 'Pin Duzenle' : 'Yeni Pin'}
+          {pin?.placeName ? 'Pin Düzenle' : 'Yeni Pin'}
         </h3>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
             <label htmlFor="placeName" className={styles.label}>
-              Mekan Adi
+              Mekan Adı
             </label>
             <input
               id="placeName"
@@ -131,7 +139,7 @@ export default function PinEditor({
               className={styles.input}
               value={placeName}
               onChange={(e) => setPlaceName(e.target.value)}
-              placeholder="Ornek: Ayasofya"
+              placeholder="Örnek: Ayasofya"
               required
               autoFocus
             />
@@ -140,7 +148,7 @@ export default function PinEditor({
           <div className={styles.row}>
             <div className={styles.inputGroup}>
               <label htmlFor="daySelect" className={styles.label}>
-                Gun
+                Gün
               </label>
               <select
                 id="daySelect"
@@ -150,7 +158,7 @@ export default function PinEditor({
               >
                 {days.map((day) => (
                   <option key={day.id} value={day.dayNumber}>
-                    Gun {day.dayNumber}
+                    Gün {day.dayNumber}
                     {day.title ? ` - ${day.title}` : ''}
                   </option>
                 ))}
@@ -167,7 +175,7 @@ export default function PinEditor({
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="">Secin...</option>
+                <option value="">Seçin...</option>
                 {PIN_CATEGORIES.map((cat) => (
                   <option key={cat.value} value={cat.value}>
                     {cat.label}
@@ -178,7 +186,7 @@ export default function PinEditor({
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Butce</label>
+            <label className={styles.label}>Bütçe</label>
             <div className={styles.budgetRow}>
               <input
                 type="number"
@@ -212,14 +220,14 @@ export default function PinEditor({
               className={styles.textarea}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Bu mekan hakkinda notlariniz..."
+              placeholder="Bu mekan hakkında notlarınız..."
               rows={3}
             />
           </div>
 
           <div className={styles.inputGroup}>
             <label className={styles.label}>
-              Fotograflar ({photos.length}/{MAX_PHOTOS_PER_PIN})
+              Fotoğraflar ({photos.length}/{MAX_PHOTOS_PER_PIN})
             </label>
             {photos.length > 0 && (
               <div className={styles.photoGrid}>
@@ -236,7 +244,7 @@ export default function PinEditor({
                 disabled={uploading}
               >
                 <FiUpload size={14} />
-                {uploading ? 'Yukleniyor...' : 'Fotograf Yukle'}
+                {uploading ? 'Yükleniyor...' : 'Fotoğraf Yükle'}
               </button>
             )}
             <input
@@ -259,11 +267,11 @@ export default function PinEditor({
             <button
               type="button"
               className={styles.cancelBtn}
-              onClick={onCancel}
+              onClick={handleCancel}
             >
-              Iptal
+              İptal
             </button>
-            {pin?.id && (
+            {pin?.id && !isNew && (
               <button
                 type="button"
                 className={styles.deleteBtn}

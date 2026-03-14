@@ -61,7 +61,7 @@ export default function CommentSection({ routeId }) {
             className={styles.textarea}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Bir yorum yazin..."
+            placeholder="Bir yorum yazın..."
             rows={2}
             maxLength={500}
           />
@@ -76,7 +76,7 @@ export default function CommentSection({ routeId }) {
       )}
 
       {loading ? (
-        <p className={styles.loadingText}>Yorumlar yukleniyor...</p>
+        <p className={styles.loadingText}>Yorumlar yükleniyor...</p>
       ) : comments.length > 0 ? (
         <ul className={styles.commentList}>
           {comments.map((comment) => (
@@ -110,7 +110,7 @@ export default function CommentSection({ routeId }) {
           ))}
         </ul>
       ) : (
-        <p className={styles.emptyText}>Henuz yorum yok.</p>
+        <p className={styles.emptyText}>Henüz yorum yok.</p>
       )}
     </div>
   );

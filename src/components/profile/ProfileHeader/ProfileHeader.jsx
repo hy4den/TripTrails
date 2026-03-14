@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { FiEdit2, FiCompass, FiMapPin, FiMap, FiUsers } from 'react-icons/fi';
 import styles from './ProfileHeader.module.css';
 
-export default function ProfileHeader({ profile, isOwnProfile, onEditClick, onFollowToggle, isFollowing: isFollowingProp, routeCount }) {
-  const displayName = profile?.displayName || 'Kullanici';
+export default function ProfileHeader({ profile, isOwnProfile, onEditClick, onFollowToggle, isFollowing: isFollowingProp, routeCount, onFollowersClick, onFollowingClick }) {
+  const displayName = profile?.displayName || 'Kullanıcı';
   const stats = profile?.stats || {};
   // Derive counts from actual arrays (always accurate) — fallback to stats numbers
   const countriesCount = (profile?.countriesVisited || []).length || stats.countriesVisited || 0;
@@ -38,7 +38,7 @@ export default function ProfileHeader({ profile, isOwnProfile, onEditClick, onFo
           {isOwnProfile && (
             <button className={styles.editBtn} onClick={onEditClick}>
               <FiEdit2 size={16} />
-              Profili Duzenle
+              Profili Düzenle
             </button>
           )}
           {!isOwnProfile && onFollowToggle && (
@@ -46,7 +46,7 @@ export default function ProfileHeader({ profile, isOwnProfile, onEditClick, onFo
               className={`${styles.followBtn} ${isFollowingProp ? styles.followBtnActive : ''}`}
               onClick={onFollowToggle}
             >
-              {isFollowingProp ? 'Takipten Cik' : 'Takip Et'}
+              {isFollowingProp ? 'Takipten Çık' : 'Takip Et'}
             </button>
           )}
         </div>
@@ -68,15 +68,15 @@ export default function ProfileHeader({ profile, isOwnProfile, onEditClick, onFo
             <span className={styles.statValue}>{routesCount}</span>
             <span className={styles.statLabel}>Rota</span>
           </div>
-          <div className={styles.statItem}>
+          <button className={styles.statItemBtn} onClick={onFollowersClick} type="button">
             <FiUsers size={16} />
             <span className={styles.statValue}>{profile?.followers || 0}</span>
             <span className={styles.statLabel}>Takipçi</span>
-          </div>
-          <div className={styles.statItem}>
+          </button>
+          <button className={styles.statItemBtn} onClick={onFollowingClick} type="button">
             <span className={styles.statValue}>{profile?.following || 0}</span>
             <span className={styles.statLabel}>Takip</span>
-          </div>
+          </button>
         </div>
       </div>
     </div>

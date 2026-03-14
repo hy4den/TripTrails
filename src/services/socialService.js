@@ -4,6 +4,7 @@ import {
   serverTimestamp, increment, arrayUnion, arrayRemove,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { getUserProfile } from './userService';
 
 // ─── LIKES ───────────────────────────────────────────────
 
@@ -175,4 +176,22 @@ export async function isFollowing(followerId, followingId) {
   const followRef = doc(db, 'follows', `${followerId}_${followingId}`);
   const followSnap = await getDoc(followRef);
   return followSnap.exists();
+}
+
+export async function getFollowers(userId) {
+  const q = query(collection(db, 'follows'), where('followingId', '==', userId));
+  const snap = await getDocs(q);
+  const profiles = await Promise.all(
+    snap.docs.map((d) => getUserProfile(d.data().followerId))
+  );
+  return profiles.filter(Boolean);
+}
+
+export async function getFollowing(userId) {
+  const q = query(collection(db, 'follows'), where('followerId', '==', userId));
+  const snap = await getDocs(q);
+  const profiles = await Promise.all(
+    snap.docs.map((d) => getUserProfile(d.data().followingId))
+  );
+  return profiles.filter(Boolean);
 }

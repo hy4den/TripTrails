@@ -11,6 +11,7 @@ import RouteLayer from '../../components/map/RouteLayer/RouteLayer';
 import PlaceSearch from '../../components/map/PlaceSearch/PlaceSearch';
 import DayTimeline from '../../components/route/DayTimeline/DayTimeline';
 import PinEditor from '../../components/route/PinEditor/PinEditor';
+import SearchableSelect from '../../components/common/SearchableSelect/SearchableSelect';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import { getDayColor } from '../../utils/constants';
@@ -246,6 +247,7 @@ export default function RouteCreatePage() {
   const { currentUser } = useAuth();
   const { addToast } = useToast();
   const [isSaved, setIsSaved] = useState(false);
+  const [isNewPin, setIsNewPin] = useState(false);
 
   const selectedPin = useMemo(
     () => state.pins.find((p) => p.id === state.selectedPinId) || null,
@@ -262,9 +264,18 @@ export default function RouteCreatePage() {
     () => (state.countryCode ? State.getStatesOfCountry(state.countryCode) || [] : []),
     [state.countryCode]
   );
+  const countryOptions = useMemo(
+    () => allCountries.map((c) => ({ value: c.isoCode, label: c.name })),
+    [allCountries]
+  );
+  const cityOptions = useMemo(
+    () => citiesForCountry.map((c) => ({ value: c.name, label: c.name })),
+    [citiesForCountry]
+  );
 
   const handleMapClick = useCallback((coords) => {
     dispatch({ type: 'ADD_PIN', payload: coords });
+    setIsNewPin(true);
   }, []);
 
   const handlePinSelect = useCallback((pinId) => {
@@ -288,6 +299,7 @@ export default function RouteCreatePage() {
 
   const handlePinSave = useCallback((pinData) => {
     dispatch({ type: 'UPDATE_PIN', payload: pinData });
+    setIsNewPin(false);
   }, []);
 
   const handlePinReorder = useCallback((pinId, direction) => {
@@ -304,6 +316,7 @@ export default function RouteCreatePage() {
 
   const handlePlaceSelect = useCallback(({ lng, lat, placeName }) => {
     dispatch({ type: 'ADD_PIN', payload: { lng, lat, placeName } });
+    setIsNewPin(true);
     mapRef.current?.flyTo({ center: [lng, lat], zoom: 15, duration: 1200 });
   }, []);
 
@@ -323,7 +336,7 @@ export default function RouteCreatePage() {
       addToast('Rota kaydedildi.', 'success');
     } catch (error) {
       console.error('Save failed:', error);
-      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Kaydedilirken hata olustu.' });
+      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Kaydedilirken hata oluştu.' });
       dispatch({ type: 'SET_SAVING', payload: false });
       addToast('Rota kaydedilemedi.', 'error');
     }
@@ -333,12 +346,12 @@ export default function RouteCreatePage() {
     if (!currentUser) return;
 
     if (!state.title.trim()) {
-      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayinlamak icin rota basligi gerekli.' });
+      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayınlamak için rota başlığı gerekli.' });
       addToast('Rota başlığı gerekli.', 'info');
       return;
     }
     if (state.pins.length === 0) {
-      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayinlamak icin en az bir pin gerekli.' });
+      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayınlamak için en az bir pin gerekli.' });
       addToast('En az bir pin eklemelisiniz.', 'info');
       return;
     }
@@ -356,7 +369,7 @@ export default function RouteCreatePage() {
       navigate(`/routes/${state.routeId}`);
     } catch (error) {
       console.error('Publish failed:', error);
-      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayinlanirken hata olustu.' });
+      dispatch({ type: 'SET_SAVE_ERROR', payload: 'Yayınlanırken hata oluştu.' });
       dispatch({ type: 'SET_SAVING', payload: false });
       addToast('Rota yayınlanamadı.', 'error');
     }
@@ -368,7 +381,7 @@ export default function RouteCreatePage() {
         <div className={styles.sidebarHeader}>
           <input
             className={styles.routeTitle}
-            placeholder="Rota basligini girin..."
+            placeholder="Rota başlığını girin..."
             value={state.title}
             onChange={(e) =>
               dispatch({ type: 'SET_TITLE', payload: e.target.value })
@@ -376,7 +389,7 @@ export default function RouteCreatePage() {
           />
           <textarea
             className={styles.routeDescription}
-            placeholder="Rota aciklamasi (opsiyonel)..."
+            placeholder="Rota açıklaması (opsiyonel)..."
             value={state.description}
             onChange={(e) =>
               dispatch({ type: 'SET_DESCRIPTION', payload: e.target.value })
@@ -385,11 +398,11 @@ export default function RouteCreatePage() {
           />
           <div className={styles.locationRow}>
             <div className={styles.locationSelectWrap}>
-              <select
-                className={styles.locationSelect}
+              <SearchableSelect
+                options={countryOptions}
                 value={state.countryCode}
-                onChange={(e) => {
-                  const country = allCountries.find((c) => c.isoCode === e.target.value);
+                onChange={(isoCode) => {
+                  const country = allCountries.find((c) => c.isoCode === isoCode);
                   dispatch({
                     type: 'SET_COUNTRY',
                     payload: country ? { name: country.name, code: country.isoCode } : { name: '', code: '' },
@@ -402,21 +415,16 @@ export default function RouteCreatePage() {
                     });
                   }
                 }}
-              >
-                <option value="">Ülke Seçin...</option>
-                {allCountries.map((c) => (
-                  <option key={c.isoCode} value={c.isoCode}>{c.name}</option>
-                ))}
-              </select>
+                placeholder="Ülke Seçin..."
+              />
             </div>
             <div className={styles.locationSelectWrap}>
-              <select
-                className={styles.locationSelect}
+              <SearchableSelect
+                options={cityOptions}
                 value={state.city}
-                disabled={!state.countryCode}
-                onChange={(e) => {
-                  dispatch({ type: 'SET_CITY', payload: e.target.value });
-                  const selectedState = citiesForCountry.find((c) => c.name === e.target.value);
+                onChange={(cityName) => {
+                  dispatch({ type: 'SET_CITY', payload: cityName });
+                  const selectedState = citiesForCountry.find((c) => c.name === cityName);
                   if (selectedState?.latitude && selectedState?.longitude && mapRef.current) {
                     mapRef.current.flyTo({
                       center: [parseFloat(selectedState.longitude), parseFloat(selectedState.latitude)],
@@ -425,19 +433,14 @@ export default function RouteCreatePage() {
                     });
                   }
                 }}
-              >
-                <option value="">
-                  {state.countryCode ? 'Şehir Seçin...' : 'Önce ülke seçin'}
-                </option>
-                {citiesForCountry.map((c) => (
-                  <option key={c.isoCode} value={c.name}>{c.name}</option>
-                ))}
-              </select>
+                placeholder={state.countryCode ? 'Şehir Seçin...' : 'Önce ülke seçin'}
+                disabled={!state.countryCode}
+              />
             </div>
           </div>
           <div className={styles.editBanner}>
             <FiInfo size={16} className={styles.editBannerIcon} />
-            Haritaya tiklayarak pin ekleyin
+            Haritaya tıklayarak pin ekleyin
           </div>
         </div>
         <div className={styles.sidebarContent}>
@@ -485,7 +488,7 @@ export default function RouteCreatePage() {
               disabled={state.saving}
             >
               <FiSend size={16} />
-              Yayinla
+              Yayınla
             </button>
           </div>
         </div>
@@ -511,9 +514,10 @@ export default function RouteCreatePage() {
               onClose={() =>
                 dispatch({ type: 'SELECT_PIN', payload: null })
               }
-              onEdit={(id) =>
-                dispatch({ type: 'SET_EDITING_PIN', payload: id })
-              }
+              onEdit={(id) => {
+                dispatch({ type: 'SET_EDITING_PIN', payload: id });
+                setIsNewPin(false);
+              }}
               onDelete={(id) =>
                 dispatch({ type: 'REMOVE_PIN', payload: id })
               }
@@ -529,10 +533,12 @@ export default function RouteCreatePage() {
           pin={editingPin}
           days={state.days}
           routeId={state.routeId}
+          isNew={isNewPin}
           onSave={handlePinSave}
-          onCancel={() =>
-            dispatch({ type: 'SET_EDITING_PIN', payload: null })
-          }
+          onCancel={() => {
+            dispatch({ type: 'SET_EDITING_PIN', payload: null });
+            setIsNewPin(false);
+          }}
           onDelete={(id) => dispatch({ type: 'REMOVE_PIN', payload: id })}
           onPhotoAdd={handlePhotoAdd}
           onPhotoRemove={handlePhotoRemove}

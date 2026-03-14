@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FiCompass } from 'react-icons/fi';
 import { getPublishedRoutesPage } from '../../services/routeService';
+import { toUSD } from '../../utils/constants';
 import SearchBar from '../../components/explore/SearchBar/SearchBar';
 import FilterPanel from '../../components/explore/FilterPanel/FilterPanel';
 import ExploreRouteCard from '../../components/explore/ExploreRouteCard/ExploreRouteCard';
@@ -58,6 +59,20 @@ function applyFiltersAndSort(routes, searchQuery, filters) {
     result = [...result].sort((a, b) => (b.engagement?.averageRating || 0) - (a.engagement?.averageRating || 0));
   } else if (filters.sortBy === 'saves') {
     result = [...result].sort((a, b) => (b.engagement?.saves || 0) - (a.engagement?.saves || 0));
+  } else if (filters.sortBy === 'cheapest') {
+    result = [...result].sort((a, b) => {
+      const aUSD = toUSD(a.metadata?.totalBudget || 0, a.metadata?.currency);
+      const bUSD = toUSD(b.metadata?.totalBudget || 0, b.metadata?.currency);
+      return aUSD - bUSD;
+    });
+  } else if (filters.sortBy === 'mostExpensive') {
+    result = [...result].sort((a, b) => {
+      const aUSD = toUSD(a.metadata?.totalBudget || 0, a.metadata?.currency);
+      const bUSD = toUSD(b.metadata?.totalBudget || 0, b.metadata?.currency);
+      return bUSD - aUSD;
+    });
+  } else if (filters.sortBy === 'mostCommented') {
+    result = [...result].sort((a, b) => (b.engagement?.commentCount || 0) - (a.engagement?.commentCount || 0));
   }
 
   return result;

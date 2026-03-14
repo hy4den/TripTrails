@@ -33,10 +33,10 @@ export default function RouteTrackPage() {
   useEffect(() => {
     getRoute(routeId)
       .then((data) => {
-        if (!data) setError('Rota bulunamadi.');
+        if (!data) setError('Rota bulunamadı.');
         else setRoute(data);
       })
-      .catch(() => setError('Rota yuklenirken hata olustu.'))
+      .catch(() => setError('Rota yüklenirken hata oluştu.'))
       .finally(() => setLoading(false));
   }, [routeId]);
 
@@ -88,7 +88,7 @@ export default function RouteTrackPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <p className={styles.loadingText}>Rota yukleniyor...</p>
+        <p className={styles.loadingText}>Rota yükleniyor...</p>
       </div>
     );
   }
@@ -98,9 +98,9 @@ export default function RouteTrackPage() {
       <div className={styles.page}>
         <div className={styles.errorState}>
           <FiMap size={32} />
-          <p>{error || 'Rota bulunamadi.'}</p>
+          <p>{error || 'Rota bulunamadı.'}</p>
           <button className={styles.backLink} onClick={() => navigate(`/routes/${routeId}`)}>
-            Rotaya Don
+            Rotaya Dön
           </button>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default function RouteTrackPage() {
                     {day.dayNumber}
                   </div>
                   <span className={styles.dayLabel}>
-                    Gun {day.dayNumber}{day.title ? ` — ${day.title}` : ''}
+                    Gün {day.dayNumber}{day.title ? ` — ${day.title}` : ''}
                   </span>
                 </div>
                 <ul className={styles.checklistItems}>
@@ -188,7 +188,7 @@ export default function RouteTrackPage() {
                         <span className={`${styles.checkbox} ${visited ? styles.checked : ''}`}>
                           {visited ? '✓' : ''}
                         </span>
-                        <span>{pin.placeName || 'Isimsiz Konum'}</span>
+                        <span>{pin.placeName || 'İsimsiz Konum'}</span>
                       </li>
                     );
                   })}

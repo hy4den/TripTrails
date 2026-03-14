@@ -38,10 +38,10 @@ export default function RouteViewPage() {
   useEffect(() => {
     getRoute(routeId)
       .then((data) => {
-        if (!data) setError('Rota bulunamadi.');
+        if (!data) setError('Rota bulunamadı.');
         else setRoute(data);
       })
-      .catch(() => setError('Rota yuklenirken hata olustu.'))
+      .catch(() => setError('Rota yüklenirken hata oluştu.'))
       .finally(() => setLoading(false));
   }, [routeId]);
 
@@ -97,7 +97,7 @@ export default function RouteViewPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <p className={styles.loadingText}>Rota yukleniyor...</p>
+        <p className={styles.loadingText}>Rota yükleniyor...</p>
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function RouteViewPage() {
       <div className={styles.page}>
         <div className={styles.errorState}>
           <FiMap size={32} />
-          <p>{error || 'Rota bulunamadi.'}</p>
+          <p>{error || 'Rota bulunamadı.'}</p>
         </div>
       </div>
     );
@@ -155,7 +155,7 @@ export default function RouteViewPage() {
         <div className={styles.metaRow}>
           <span className={styles.metaItem}>
             <FiCalendar size={14} />
-            {meta.totalDays || 0} gun
+            {meta.totalDays || 0} gün
           </span>
           <span className={styles.metaItem}>
             <FiMapPin size={14} />
@@ -210,7 +210,7 @@ export default function RouteViewPage() {
           )}
 
           <div className={styles.dayDetails}>
-            <h2 className={styles.sectionTitle}>Rota Detaylari</h2>
+            <h2 className={styles.sectionTitle}>Rota Detayları</h2>
             {(route.days || []).map((day) => {
               const dayPins = grouped[day.dayNumber] || [];
               const color = getDayColor(day.dayNumber);
@@ -221,7 +221,7 @@ export default function RouteViewPage() {
                       {day.dayNumber}
                     </div>
                     <span className={styles.dayLabel}>
-                      Gun {day.dayNumber}
+                      Gün {day.dayNumber}
                       {day.title ? ` — ${day.title}` : ''}
                     </span>
                   </div>
@@ -234,7 +234,7 @@ export default function RouteViewPage() {
                           onClick={() => setSelectedPinId(pin.id)}
                         >
                           <FiMapPin size={12} style={{ color, flexShrink: 0 }} />
-                          <span>{pin.placeName || 'Isimsiz Konum'}</span>
+                          <span>{pin.placeName || 'İsimsiz Konum'}</span>
                           {pin.budget > 0 && (
                             <span className={styles.pinBudget}>
                               {getCurrencySymbol(pin.currency || 'TRY')}{pin.budget}
@@ -244,7 +244,7 @@ export default function RouteViewPage() {
                       ))}
                     </ul>
                   ) : (
-                    <p className={styles.noPins}>Bu gunde pin yok.</p>
+                    <p className={styles.noPins}>Bu günde pin yok.</p>
                   )}
                 </div>
               );

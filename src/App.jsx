@@ -10,7 +10,9 @@ import RouteViewPage from './pages/RouteView/RouteViewPage';
 import RouteTrackPage from './pages/RouteTrack/RouteTrackPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import FriendsPage from './pages/Friends/FriendsPage';
+import PeoplePage from './pages/People/PeoplePage';
 import MessagesPage from './pages/Messages/MessagesPage';
+import WorldProgressPage from './pages/WorldProgress/WorldProgressPage';
 import SeedPage from './pages/Seed/SeedPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
@@ -30,6 +32,8 @@ function App() {
           <Route path="/routes/:routeId/track" element={<RouteTrackPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/friends" element={<FriendsPage />} />
+          <Route path="/people" element={<PeoplePage />} />
+          <Route path="/world" element={<WorldProgressPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/seed" element={<SeedPage />} />
         </Route>

@@ -8,7 +8,7 @@ import {
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, googleProvider, db } from '../config/firebase';
 
-export async function registerWithEmail(email, password, displayName) {
+export async function registerWithEmail(email, password, displayName, extraFields = {}) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
 
@@ -19,6 +19,9 @@ export async function registerWithEmail(email, password, displayName) {
     email: user.email,
     photoURL: null,
     bio: '',
+    firstName: extraFields.firstName || '',
+    lastName: extraFields.lastName || '',
+    citizenCountry: extraFields.citizenCountry || '',
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     stats: {

@@ -24,7 +24,7 @@ export default function TrackingControls({
         <span className={styles.gpsText}>
           {isGpsActive
             ? `GPS Aktif${accuracy ? ` (±${Math.round(accuracy)}m)` : ''}`
-            : 'GPS Kapali'}
+            : 'GPS Kapalı'}
         </span>
       </div>
 
@@ -37,7 +37,7 @@ export default function TrackingControls({
 
       <div className={styles.progressSection}>
         <div className={styles.progressHeader}>
-          <span className={styles.progressLabel}>Ilerleme</span>
+          <span className={styles.progressLabel}>İlerleme</span>
           <span className={styles.progressValue}>
             {visitedCount}/{totalCount} pin ({progress}%)
           </span>
@@ -52,7 +52,7 @@ export default function TrackingControls({
 
       {isCompleted ? (
         <div className={styles.completedBanner}>
-          Tebrikler! Rotayi tamamladiniz!
+          Tebrikler! Rotayı tamamladınız!
         </div>
       ) : isTracking ? (
         <button
@@ -70,7 +70,7 @@ export default function TrackingControls({
           disabled={isLoading}
         >
           <FiPlay size={16} />
-          {isLoading ? 'Yukleniyor...' : 'Takibe Basla'}
+          {isLoading ? 'Yükleniyor...' : 'Takibe Başla'}
         </button>
       )}
     </div>

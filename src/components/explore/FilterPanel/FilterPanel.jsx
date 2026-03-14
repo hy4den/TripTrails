@@ -2,13 +2,17 @@ import { useMemo } from 'react';
 import { FiSliders, FiX } from 'react-icons/fi';
 import { Country, State } from 'country-state-city';
 import { CURRENCIES } from '../../../utils/constants';
+import SearchableSelect from '../../common/SearchableSelect/SearchableSelect';
 import styles from './FilterPanel.module.css';
 
 const SORT_OPTIONS = [
   { value: 'newest', label: 'En Yeni' },
-  { value: 'likes', label: 'En Begenilen' },
-  { value: 'rating', label: 'En Yuksek Puan' },
-  { value: 'saves', label: 'En Cok Kaydedilen' },
+  { value: 'likes', label: 'En Beğenilen' },
+  { value: 'rating', label: 'En Yüksek Puan' },
+  { value: 'saves', label: 'En Çok Kaydedilen' },
+  { value: 'cheapest', label: 'En Ucuz' },
+  { value: 'mostExpensive', label: 'En Pahalı' },
+  { value: 'mostCommented', label: 'En Çok Yorum Alan' },
 ];
 
 export default function FilterPanel({ filters, onChange, totalResults, totalCount }) {
@@ -16,6 +20,14 @@ export default function FilterPanel({ filters, onChange, totalResults, totalCoun
   const citiesForCountry = useMemo(
     () => (filters.countryCode ? State.getStatesOfCountry(filters.countryCode) : []),
     [filters.countryCode]
+  );
+  const countryOptions = useMemo(
+    () => allCountries.map((c) => ({ value: c.isoCode, label: c.name })),
+    [allCountries]
+  );
+  const cityOptions = useMemo(
+    () => citiesForCountry.map((s) => ({ value: s.name, label: s.name })),
+    [citiesForCountry]
   );
 
   const hasActiveFilters =
@@ -68,31 +80,23 @@ export default function FilterPanel({ filters, onChange, totalResults, totalCoun
       <div className={styles.grid}>
         <div className={styles.filterGroup}>
           <label className={styles.label}>Ülke</label>
-          <select
-            className={styles.select}
+          <SearchableSelect
+            options={countryOptions}
             value={filters.countryCode}
-            onChange={(e) => setCountry(e.target.value)}
-          >
-            <option value="">Tümü</option>
-            {allCountries.map((c) => (
-              <option key={c.isoCode} value={c.isoCode}>{c.name}</option>
-            ))}
-          </select>
+            onChange={setCountry}
+            placeholder="Tümü"
+          />
         </div>
 
         <div className={styles.filterGroup}>
           <label className={styles.label}>Şehir / Bölge</label>
-          <select
-            className={styles.select}
+          <SearchableSelect
+            options={cityOptions}
             value={filters.city}
-            onChange={(e) => set('city', e.target.value)}
+            onChange={(cityName) => set('city', cityName)}
+            placeholder="Tümü"
             disabled={!filters.countryCode}
-          >
-            <option value="">Tümü</option>
-            {citiesForCountry.map((s) => (
-              <option key={s.isoCode} value={s.name}>{s.name}</option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className={styles.filterGroup}>

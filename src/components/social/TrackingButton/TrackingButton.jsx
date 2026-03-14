@@ -32,10 +32,10 @@ export default function TrackingButton({ routeId }) {
       className={`${styles.trackBtn} ${isActive ? styles.active : ''}`}
       onClick={handleClick}
       disabled={!currentUser}
-      title={currentUser ? '' : 'Takip icin giris yapin'}
+      title={currentUser ? '' : 'Takip için giriş yapın'}
     >
       <FiNavigation size={18} />
-      <span>{isActive ? `Devam Et (%${progress})` : 'Rotayi Takip Et'}</span>
+      <span>{isActive ? `Devam Et (%${progress})` : 'Rotayı Takip Et'}</span>
     </button>
   );
 }

@@ -7,7 +7,7 @@ export default function BadgeGrid({ earnedBadgeIds = [] }) {
     <div className={styles.badgeSection}>
       <h2 className={styles.title}>Rozetler</h2>
       {earnedBadgeIds.length === 0 ? (
-        <p className={styles.empty}>Henuz rozet kazanilmadi.</p>
+        <p className={styles.empty}>Henüz rozet kazanılmadı.</p>
       ) : null}
       <div className={styles.grid}>
         {BADGES.map((badge) => {

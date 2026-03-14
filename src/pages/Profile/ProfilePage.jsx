@@ -5,7 +5,7 @@ import { useToast } from '../../contexts/ToastContext';
 import { getUserProfile, updateUserProfile, getSavedRoutes, syncUserStats } from '../../services/userService';
 import { getUserRoutes, getRoute } from '../../services/routeService';
 import { uploadAvatar } from '../../services/storageService';
-import { toggleFollow, isFollowing } from '../../services/socialService';
+import { toggleFollow, isFollowing, getFollowers, getFollowing } from '../../services/socialService';
 import { getUserActiveRoutes, getUserCompletedRoutes } from '../../services/trackingService';
 import { updateProfile } from 'firebase/auth';
 
@@ -15,12 +15,13 @@ import BadgeGrid from '../../components/profile/BadgeGrid/BadgeGrid';
 import RouteCard from '../../components/profile/RouteCard/RouteCard';
 import RouteCardSkeleton from '../../components/explore/RouteCardSkeleton/RouteCardSkeleton';
 import ProfileEditModal from '../../components/profile/ProfileEditModal/ProfileEditModal';
+import FollowListModal from '../../components/profile/FollowListModal/FollowListModal';
 
 import { FiMap, FiBookmark, FiNavigation } from 'react-icons/fi';
 import styles from './ProfilePage.module.css';
 
 const TABS = [
-  { value: 'routes', label: 'Rotalarim', icon: FiMap },
+  { value: 'routes', label: 'Rotalarım', icon: FiMap },
   { value: 'saved', label: 'Kaydedilenler', icon: FiBookmark },
   { value: 'tracking', label: 'Takip Ettiklerim', icon: FiNavigation },
 ];
@@ -44,6 +45,9 @@ export default function ProfilePage() {
   const [totalRouteCount, setTotalRouteCount] = useState(undefined);
   const [showEditModal, setShowEditModal] = useState(false);
   const [followingState, setFollowingState] = useState(false);
+  const [followListType, setFollowListType] = useState(null); // null | 'followers' | 'following'
+  const [followListUsers, setFollowListUsers] = useState([]);
+  const [loadingFollowList, setLoadingFollowList] = useState(false);
 
   useEffect(() => {
     if (!isOwnProfile && userId) {
@@ -105,7 +109,7 @@ export default function ProfilePage() {
         const photoURL = await uploadAvatar(currentUser.uid, avatarFile);
         updates.photoURL = photoURL;
       } catch (err) {
-        throw new Error('Avatar yuklenemedi: ' + (err.message || 'Bilinmeyen hata'));
+        throw new Error('Avatar yüklenemedi: ' + (err.message || 'Bilinmeyen hata'));
       }
     }
 
@@ -117,7 +121,7 @@ export default function ProfilePage() {
     try {
       await updateUserProfile(currentUser.uid, updates);
     } catch (err) {
-      throw new Error('Profil guncellenemedi: ' + (err.code || err.message || 'Firestore hatasi'));
+      throw new Error('Profil güncellenemedi: ' + (err.code || err.message || 'Firestore hatası'));
     }
 
     patchUserProfile(updates);
@@ -139,6 +143,26 @@ export default function ProfilePage() {
     }
   }, [currentUser, userId, addToast]);
 
+  const handleFollowersClick = useCallback(async () => {
+    if (!targetUserId) return;
+    setFollowListType('followers');
+    setLoadingFollowList(true);
+    setFollowListUsers([]);
+    const users = await getFollowers(targetUserId);
+    setFollowListUsers(users);
+    setLoadingFollowList(false);
+  }, [targetUserId]);
+
+  const handleFollowingClick = useCallback(async () => {
+    if (!targetUserId) return;
+    setFollowListType('following');
+    setLoadingFollowList(true);
+    setFollowListUsers([]);
+    const users = await getFollowing(targetUserId);
+    setFollowListUsers(users);
+    setLoadingFollowList(false);
+  }, [targetUserId]);
+
   const getDisplayedRoutes = () => {
     if (activeTab === 'routes') return routes;
     if (activeTab === 'saved') return savedRoutes;
@@ -147,9 +171,9 @@ export default function ProfilePage() {
   };
 
   const getEmptyMessage = () => {
-    if (activeTab === 'routes') return 'Henuz rota olusturulmadi.';
-    if (activeTab === 'saved') return 'Henuz kaydedilen rota yok.';
-    return 'Henuz takip edilen rota yok.';
+    if (activeTab === 'routes') return 'Henüz rota oluşturulmadı.';
+    if (activeTab === 'saved') return 'Henüz kaydedilen rota yok.';
+    return 'Henüz takip edilen rota yok.';
   };
 
   const displayedRoutes = getDisplayedRoutes();
@@ -157,7 +181,7 @@ export default function ProfilePage() {
   if (!profile && !isOwnProfile) {
     return (
       <div className={styles.page}>
-        <p className={styles.loadingText}>Profil yukleniyor...</p>
+        <p className={styles.loadingText}>Profil yükleniyor...</p>
       </div>
     );
   }
@@ -171,6 +195,8 @@ export default function ProfilePage() {
         onFollowToggle={handleFollowToggle}
         isFollowing={followingState}
         routeCount={totalRouteCount}
+        onFollowersClick={handleFollowersClick}
+        onFollowingClick={handleFollowingClick}
       />
 
       <DigitalPassport
@@ -219,6 +245,15 @@ export default function ProfilePage() {
           profile={profile}
           onSave={handleEditSave}
           onClose={() => setShowEditModal(false)}
+        />
+      )}
+
+      {followListType && (
+        <FollowListModal
+          title={followListType === 'followers' ? 'Takipçiler' : 'Takip Edilenler'}
+          users={followListUsers}
+          loading={loadingFollowList}
+          onClose={() => setFollowListType(null)}
         />
       )}
     </div>

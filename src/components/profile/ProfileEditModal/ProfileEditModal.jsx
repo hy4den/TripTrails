@@ -38,7 +38,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!displayName.trim()) {
-      setError('Kullanici adi bos olamaz.');
+      setError('Kullanıcı adı boş olamaz.');
       return;
     }
 
@@ -46,7 +46,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
     setError('');
     try {
       const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Kaydetme islemi zaman asimina ugradi. Lutfen tekrar deneyin.')), 15000)
+        setTimeout(() => reject(new Error('Kaydetme işlemi zaman aşımına uğradı. Lütfen tekrar deneyin.')), 15000)
       );
       await Promise.race([
         onSave({ displayName: displayName.trim(), bio: bio.trim(), avatarFile }),
@@ -54,7 +54,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
       ]);
     } catch (err) {
       console.error('Profile save error:', err);
-      setError(err.message || 'Bir hata olustu.');
+      setError(err.message || 'Bir hata oluştu.');
       setSaving(false);
     }
   };
@@ -63,7 +63,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h3>Profili Duzenle</h3>
+          <h3>Profili Düzenle</h3>
           <button className={styles.closeBtn} onClick={onClose}>
             <FiX size={20} />
           </button>
@@ -97,7 +97,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
 
           <div className={styles.inputGroup}>
             <label htmlFor="editName" className={styles.label}>
-              Kullanici Adi
+              Kullanıcı Adı
             </label>
             <input
               id="editName"
@@ -111,14 +111,14 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
 
           <div className={styles.inputGroup}>
             <label htmlFor="editBio" className={styles.label}>
-              Hakkinda
+              Hakkında
             </label>
             <textarea
               id="editBio"
               className={styles.textarea}
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              placeholder="Kendiniz hakkinda bir seyler yazin..."
+              placeholder="Kendiniz hakkında bir şeyler yazın..."
               rows={3}
               maxLength={200}
             />
@@ -132,7 +132,7 @@ export default function ProfileEditModal({ profile, onSave, onClose }) {
               {saving ? 'Kaydediliyor...' : 'Kaydet'}
             </button>
             <button type="button" className={styles.cancelBtn} onClick={onClose}>
-              Iptal
+              İptal
             </button>
           </div>
         </form>

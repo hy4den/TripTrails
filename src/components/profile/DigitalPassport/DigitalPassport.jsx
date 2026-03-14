@@ -8,7 +8,7 @@ export default function DigitalPassport({ countriesVisited = [], citiesVisited =
     return (
       <div className={styles.empty}>
         <FiGlobe size={32} className={styles.emptyIcon} />
-        <p>Henuz ziyaret edilen yer yok.</p>
+        <p>Henüz ziyaret edilen yer yok.</p>
       </div>
     );
   }
@@ -21,7 +21,7 @@ export default function DigitalPassport({ countriesVisited = [], citiesVisited =
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>
             <FiGlobe size={16} />
-            Ulkeler ({countriesVisited.length})
+            Ülkeler ({countriesVisited.length})
           </h3>
           <div className={styles.stampGrid}>
             {countriesVisited.map((country) => (
@@ -37,7 +37,7 @@ export default function DigitalPassport({ countriesVisited = [], citiesVisited =
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>
             <FiMapPin size={16} />
-            Sehirler ({citiesVisited.length})
+            Şehirler ({citiesVisited.length})
           </h3>
           <div className={styles.stampGrid}>
             {citiesVisited.map((city) => (

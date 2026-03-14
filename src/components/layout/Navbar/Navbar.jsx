@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { FiMap, FiUsers, FiMessageSquare } from 'react-icons/fi';
+import { FiMap, FiUsers, FiMessageSquare, FiSearch, FiGlobe } from 'react-icons/fi';
 import { useAuth } from '../../../contexts/AuthContext';
 import { logout } from '../../../services/authService';
 import { getPendingRequests } from '../../../services/friendService';
@@ -51,6 +51,18 @@ export default function Navbar() {
         {currentUser && (
           <>
             <NavLink to="/routes/create" className={navClass}>Rota Oluştur</NavLink>
+            <NavLink to="/world" className={navClass}>
+              <span className={styles.navLinkInner}>
+                <FiGlobe size={14} />
+                Dünyam
+              </span>
+            </NavLink>
+            <NavLink to="/people" className={navClass}>
+              <span className={styles.navLinkInner}>
+                <FiSearch size={14} />
+                Kişiler
+              </span>
+            </NavLink>
             <NavLink to="/friends" className={navClass}>
               <span className={styles.navLinkInner}>
                 <FiUsers size={14} />

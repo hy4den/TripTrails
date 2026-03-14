@@ -22,9 +22,9 @@ export const PIN_CATEGORIES = [
   { value: 'restoran', label: 'Restoran', icon: 'FiCoffee' },
   { value: 'turistik', label: 'Turistik Yer', icon: 'FiCamera' },
   { value: 'otel', label: 'Otel', icon: 'FiBriefcase' },
-  { value: 'ulasim', label: 'Ulasim', icon: 'FiTruck' },
-  { value: 'alisveris', label: 'Alisveris', icon: 'FiShoppingBag' },
-  { value: 'diger', label: 'Diger', icon: 'FiMapPin' },
+  { value: 'ulasim', label: 'Ulaşım', icon: 'FiTruck' },
+  { value: 'alisveris', label: 'Alışveriş', icon: 'FiShoppingBag' },
+  { value: 'diger', label: 'Diğer', icon: 'FiMapPin' },
 ];
 
 export const CURRENCIES = [
@@ -49,6 +49,29 @@ export function getCurrencySymbol(currencyCode) {
   return found ? found.symbol : currencyCode;
 }
 
+// Approximate conversion rates to USD — used only for cross-currency sorting
+export const APPROX_RATES_TO_USD = {
+  USD: 1,
+  EUR: 1.09,
+  GBP: 1.27,
+  CHF: 1.12,
+  AUD: 0.64,
+  CAD: 0.72,
+  AED: 0.27,
+  SAR: 0.27,
+  CNY: 0.14,
+  JPY: 0.0066,
+  INR: 0.012,
+  TRY: 0.028,
+  RUB: 0.011,
+  THB: 0.028,
+};
+
+export function toUSD(amount, currency) {
+  const rate = APPROX_RATES_TO_USD[currency] ?? 1;
+  return amount * rate;
+}
+
 export function getCategoryLabel(categoryValue) {
   const found = PIN_CATEGORIES.find((c) => c.value === categoryValue);
   return found ? found.label : '';
@@ -59,7 +82,7 @@ export const MAX_PHOTO_SIZE_MB = 5;
 export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 export const PROFILE_TABS = [
-  { value: 'routes', label: 'Rotalarim' },
+  { value: 'routes', label: 'Rotalarım' },
   { value: 'saved', label: 'Kaydedilenler' },
 ];
 
@@ -77,12 +100,12 @@ export const TRACKING_STATUS = {
 
 // ─── BADGES ─────────────────────────────────────────────
 export const BADGES = [
-  { id: 'first_track', label: 'Ilk Adim', description: 'Ilk rotani takip etmeye basla', icon: 'FiFlag', condition: 'trackingStarted', threshold: 1 },
-  { id: 'first_complete', label: 'Kasif', description: 'Ilk rotani tamamla', icon: 'FiAward', condition: 'routesCompleted', threshold: 1 },
-  { id: 'five_pins', label: 'Pin Avcisi', description: '5 pin ziyaret et', icon: 'FiMapPin', condition: 'pinsVisited', threshold: 5 },
+  { id: 'first_track', label: 'İlk Adım', description: 'İlk rotanı takip etmeye başla', icon: 'FiFlag', condition: 'trackingStarted', threshold: 1 },
+  { id: 'first_complete', label: 'Kaşif', description: 'İlk rotanı tamamla', icon: 'FiAward', condition: 'routesCompleted', threshold: 1 },
+  { id: 'five_pins', label: 'Pin Avcısı', description: '5 pin ziyaret et', icon: 'FiMapPin', condition: 'pinsVisited', threshold: 5 },
   { id: 'twenty_pins', label: 'Gezgin', description: '20 pin ziyaret et', icon: 'FiCompass', condition: 'pinsVisited', threshold: 20 },
   { id: 'fifty_pins', label: 'Profesyonel Gezgin', description: '50 pin ziyaret et', icon: 'FiGlobe', condition: 'pinsVisited', threshold: 50 },
-  { id: 'three_routes', label: 'Rota Ustasi', description: '3 rotayi tamamla', icon: 'FiTrendingUp', condition: 'routesCompleted', threshold: 3 },
-  { id: 'route_creator_5', label: 'Rehber', description: '5 rota olustur', icon: 'FiEdit2', condition: 'routesCreated', threshold: 5 },
-  { id: 'social_butterfly', label: 'Sosyal Kelebek', description: '10 takipci kazan', icon: 'FiUsers', condition: 'followers', threshold: 10 },
+  { id: 'three_routes', label: 'Rota Ustası', description: '3 rotayı tamamla', icon: 'FiTrendingUp', condition: 'routesCompleted', threshold: 3 },
+  { id: 'route_creator_5', label: 'Rehber', description: '5 rota oluştur', icon: 'FiEdit2', condition: 'routesCreated', threshold: 5 },
+  { id: 'social_butterfly', label: 'Sosyal Kelebek', description: '10 takipçi kazan', icon: 'FiUsers', condition: 'followers', threshold: 10 },
 ];

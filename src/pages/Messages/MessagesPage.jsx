@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FiSend, FiMessageSquare, FiArrowLeft } from 'react-icons/fi';
+import { FiSend, FiMessageSquare, FiArrowLeft, FiSmile } from 'react-icons/fi';
+import EmojiPicker from 'emoji-picker-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import {
@@ -37,10 +38,12 @@ export default function MessagesPage() {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [sending, setSending] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [mobileView, setMobileView] = useState('list'); // 'list' | 'chat'
 
   const messagesEndRef = useRef(null);
   const unsubRef = useRef(null);
+  const emojiPickerRef = useRef(null);
 
   // Load conversations
   const loadConversations = useCallback(async () => {
@@ -86,6 +89,7 @@ export default function MessagesPage() {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!inputText.trim() || !activeConvId || sending) return;
+    setShowEmojiPicker(false);
 
     const activeConv = conversations.find((c) => c.id === activeConvId);
     if (!activeConv) return;
@@ -211,19 +215,40 @@ export default function MessagesPage() {
             </div>
 
             {/* Input */}
-            <form className={styles.inputRow} onSubmit={handleSend}>
-              <input
-                className={styles.msgInput}
-                type="text"
-                placeholder="Mesaj yaz..."
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                disabled={sending}
-              />
-              <button type="submit" className={styles.sendBtn} disabled={!inputText.trim() || sending}>
-                <FiSend size={18} />
-              </button>
-            </form>
+            <div className={styles.inputArea} ref={emojiPickerRef}>
+              {showEmojiPicker && (
+                <div className={styles.emojiPickerWrap}>
+                  <EmojiPicker
+                    onEmojiClick={(emojiData) => setInputText((prev) => prev + emojiData.emoji)}
+                    height={380}
+                    width="100%"
+                    searchDisabled={false}
+                    skinTonesDisabled
+                    previewConfig={{ showPreview: false }}
+                  />
+                </div>
+              )}
+              <form className={styles.inputRow} onSubmit={handleSend}>
+                <button
+                  type="button"
+                  className={styles.emojiBtn}
+                  onClick={() => setShowEmojiPicker((v) => !v)}
+                >
+                  <FiSmile size={20} />
+                </button>
+                <input
+                  className={styles.msgInput}
+                  type="text"
+                  placeholder="Mesaj yaz..."
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  disabled={sending}
+                />
+                <button type="submit" className={styles.sendBtn} disabled={!inputText.trim() || sending}>
+                  <FiSend size={18} />
+                </button>
+              </form>
+            </div>
           </>
         )}
       </main>

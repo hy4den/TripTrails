@@ -115,3 +115,25 @@
 .statLabel {
   color: var(--color-text-secondary);
 }
+
+.statItemBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: var(--radius-md);
+  transition: color 0.15s;
+}
+
+.statItemBtn:hover {
+  color: var(--color-primary);
+}
+
+.statItemBtn:hover .statValue {
+  color: var(--color-primary);
+}
