@@ -1,20 +1,22 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import ProtectedRoute from './components/common/ProtectedRoute';
-import HomePage from './pages/Home/HomePage';
-import LoginPage from './pages/Auth/LoginPage';
-import RegisterPage from './pages/Auth/RegisterPage';
-import ExplorePage from './pages/Explore/ExplorePage';
-import RouteCreatePage from './pages/RouteCreate/RouteCreatePage';
-import RouteViewPage from './pages/RouteView/RouteViewPage';
-import RouteTrackPage from './pages/RouteTrack/RouteTrackPage';
-import ProfilePage from './pages/Profile/ProfilePage';
-import FriendsPage from './pages/Friends/FriendsPage';
-import PeoplePage from './pages/People/PeoplePage';
-import MessagesPage from './pages/Messages/MessagesPage';
-import WorldProgressPage from './pages/WorldProgress/WorldProgressPage';
-import SeedPage from './pages/Seed/SeedPage';
-import NotFoundPage from './pages/NotFound/NotFoundPage';
+
+const HomePage = lazy(() => import('./pages/Home/HomePage'));
+const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
+const ExplorePage = lazy(() => import('./pages/Explore/ExplorePage'));
+const RouteCreatePage = lazy(() => import('./pages/RouteCreate/RouteCreatePage'));
+const RouteViewPage = lazy(() => import('./pages/RouteView/RouteViewPage'));
+const RouteTrackPage = lazy(() => import('./pages/RouteTrack/RouteTrackPage'));
+const ProfilePage = lazy(() => import('./pages/Profile/ProfilePage'));
+const FriendsPage = lazy(() => import('./pages/Friends/FriendsPage'));
+const PeoplePage = lazy(() => import('./pages/People/PeoplePage'));
+const MessagesPage = lazy(() => import('./pages/Messages/MessagesPage'));
+const WorldProgressPage = lazy(() => import('./pages/WorldProgress/WorldProgressPage'));
+const SeedPage = lazy(() => import('./pages/Seed/SeedPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFound/NotFoundPage'));
 
 function App() {
   return (

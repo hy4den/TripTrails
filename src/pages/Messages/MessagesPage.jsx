@@ -28,7 +28,7 @@ function formatTime(ts) {
 }
 
 export default function MessagesPage() {
-  const { currentUser, userProfile } = useAuth();
+  const { currentUser } = useAuth();
   const { addToast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 

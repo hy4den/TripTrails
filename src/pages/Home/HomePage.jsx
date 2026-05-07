@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMap, FiUser, FiHeart, FiAward, FiArrowRight, FiCompass } from 'react-icons/fi';
+import {
+  FiMap,
+  FiUser,
+  FiHeart,
+  FiAward,
+  FiArrowRight,
+  FiCompass,
+  FiGlobe,
+  FiPlusCircle,
+  FiSearch,
+} from 'react-icons/fi';
 import { useAuth } from '../../contexts/AuthContext';
 import { getPublishedRoutes } from '../../services/routeService';
 import ExploreRouteCard from '../../components/explore/ExploreRouteCard/ExploreRouteCard';
@@ -13,29 +23,33 @@ const FEATURES = [
     title: 'Harita Üzerinde Rota Oluştur',
     description: 'Gideceğin yerleri harita üzerinde pinleyerek gün gün detaylı seyahat rotası oluştur.',
     color: 'var(--color-primary)',
+    background: '#eff6ff',
   },
   {
     icon: FiUser,
     title: 'Dijital Pasaport',
     description: 'Tamamladığın rotalar, ziyaret ettiğin ülkeler ve kazandığın rozetlerle kişisel seyahat pasaportunu yarat.',
     color: 'var(--color-secondary)',
+    background: '#ecfdf5',
   },
   {
     icon: FiHeart,
     title: 'Sosyal Topluluk',
     description: 'Diğer gezginlerin rotalarını beğen, kaydet, puan ver ve yorumla. Takip et, ilham al.',
     color: '#e74c3c',
+    background: '#fef2f2',
   },
   {
     icon: FiAward,
     title: 'Rozet Sistemi',
     description: 'Rotaları takip et, pinleri ziyaret et ve özel rozetler kazan. Seyahat maceranda seviye atla.',
     color: '#f39c12',
+    background: '#fff7ed',
   },
 ];
 
 export default function HomePage() {
-  const { currentUser } = useAuth();
+  const { currentUser, userProfile } = useAuth();
   const [featuredRoutes, setFeaturedRoutes] = useState([]);
   const [loadingRoutes, setLoadingRoutes] = useState(true);
 
@@ -46,6 +60,15 @@ export default function HomePage() {
       .finally(() => setLoadingRoutes(false));
   }, []);
 
+  const heroRoute = featuredRoutes.find((route) => route.coverImageURL) || featuredRoutes[0];
+  const countriesCount = new Set(
+    featuredRoutes.map((route) => route.location?.country).filter(Boolean)
+  ).size;
+  const totalPins = featuredRoutes.reduce((sum, route) => sum + (route.metadata?.totalPins || 0), 0);
+  const averageDays = featuredRoutes.length
+    ? Math.max(1, Math.round(featuredRoutes.reduce((sum, route) => sum + (route.metadata?.totalDays || 0), 0) / featuredRoutes.length))
+    : 0;
+
   return (
     <div className={styles.page}>
       {/* Hero Section */}
@@ -53,11 +76,11 @@ export default function HomePage() {
         <div className={styles.heroContent}>
           <div className={styles.heroBadge}>
             <FiCompass size={14} />
-            <span>Seyahat Sosyal Ağı</span>
+            <span>{currentUser ? `Merhaba ${userProfile?.displayName || currentUser.displayName || 'gezgin'}` : 'Seyahat Sosyal Ağı'}</span>
           </div>
           <h1 className={styles.title}>
-            Seyahatlerini <span className={styles.highlight}>Keşfet</span>,<br />
-            Rotalarını <span className={styles.highlight}>Paylaş</span>
+            Rotaları planla,<br />
+            anılarını <span className={styles.highlight}>haritada yaşat.</span>
           </h1>
           <p className={styles.subtitle}>
             TripTrails ile seyahat rotalarını harita üzerinde oluştur, dijital pasaportunu yarat
@@ -81,26 +104,64 @@ export default function HomePage() {
           </div>
           <div className={styles.statsRow}>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>13+</span>
+              <span className={styles.statNumber}>{featuredRoutes.length || '0'}</span>
               <span className={styles.statLabel}>Rota</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statNumber}>8+</span>
+              <span className={styles.statNumber}>{countriesCount || '0'}</span>
               <span className={styles.statLabel}>Ülke</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statNumber}>8</span>
-              <span className={styles.statLabel}>Rozet</span>
+              <span className={styles.statNumber}>{totalPins || '0'}</span>
+              <span className={styles.statLabel}>Durak</span>
             </div>
           </div>
+
+          {currentUser && (
+            <div className={styles.quickActions}>
+              <Link to="/routes/create" className={styles.quickAction}>
+                <FiPlusCircle size={17} />
+                Yeni rota
+              </Link>
+              <Link to="/world" className={styles.quickAction}>
+                <FiGlobe size={17} />
+                Dünya ilerlemem
+              </Link>
+              <Link to="/people" className={styles.quickAction}>
+                <FiSearch size={17} />
+                Gezgin bul
+              </Link>
+            </div>
+          )}
         </div>
         <div className={styles.heroVisual}>
-          <div className={styles.mapPreview}>
-            <div className={styles.mapPlaceholder}>
-              <FiMap size={48} className={styles.mapIcon} />
-              <p>İnteraktif Harita</p>
+          <div className={styles.routePreview}>
+            {heroRoute?.coverImageURL && (
+              <img
+                src={heroRoute.coverImageURL}
+                alt={heroRoute.title || 'Öne çıkan rota'}
+                className={styles.previewImage}
+              />
+            )}
+            <div className={styles.previewShade} />
+            <div className={styles.previewHeader}>
+              <span className={styles.previewKicker}>Öne çıkan rota</span>
+              <strong>{heroRoute?.title || 'Hafta sonu keşif rotası'}</strong>
+              <span>{[heroRoute?.location?.city, heroRoute?.location?.country].filter(Boolean).join(', ') || 'Yeni bir şehir seç'}</span>
+            </div>
+            <div className={styles.previewStats}>
+              <span>{heroRoute?.metadata?.totalDays || averageDays || 3} gün</span>
+              <span>{heroRoute?.metadata?.totalPins || 8} pin</span>
+              <span>{heroRoute?.engagement?.likes || 0} beğeni</span>
+            </div>
+            <div className={styles.previewTimeline}>
+              <span className={styles.timelinePoint} />
+              <span className={styles.timelineLine} />
+              <span className={styles.timelinePoint} />
+              <span className={styles.timelineLine} />
+              <span className={styles.timelinePoint} />
             </div>
             <div className={styles.mapPin} style={{ top: '30%', left: '40%' }} />
             <div className={styles.mapPin} style={{ top: '50%', left: '60%' }} />
@@ -120,7 +181,7 @@ export default function HomePage() {
         <div className={styles.featureGrid}>
           {FEATURES.map((f) => (
             <div key={f.title} className={styles.featureCard}>
-              <div className={styles.featureIcon} style={{ color: f.color, backgroundColor: `${f.color}18` }}>
+              <div className={styles.featureIcon} style={{ color: f.color, backgroundColor: f.background }}>
                 <f.icon size={24} />
               </div>
               <h3 className={styles.featureTitle}>{f.title}</h3>

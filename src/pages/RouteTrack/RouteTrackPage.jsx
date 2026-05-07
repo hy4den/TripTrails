@@ -63,7 +63,6 @@ export default function RouteTrackPage() {
 
   const {
     trackingData,
-    position,
     accuracy,
     gpsError,
     isGpsActive,

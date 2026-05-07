@@ -31,8 +31,9 @@ export default function ProfilePage() {
   const { currentUser, userProfile, refreshUserProfile, patchUserProfile } = useAuth();
   const { addToast } = useToast();
 
-  const isOwnProfile = !userId || userId === currentUser?.uid;
-  const targetUserId = isOwnProfile ? currentUser?.uid : userId;
+  const currentUserId = currentUser?.uid;
+  const isOwnProfile = !userId || userId === currentUserId;
+  const targetUserId = isOwnProfile ? currentUserId : userId;
 
   const [otherProfile, setOtherProfile] = useState(null);
   const profile = isOwnProfile ? userProfile : otherProfile;
@@ -71,8 +72,8 @@ export default function ProfilePage() {
           setRoutes(r);
           setTotalRouteCount(r.length);
           // Sync stats.routesCreated for own profile (fixes existing data)
-          if (isOwnProfile && currentUser) {
-            syncUserStats(currentUser.uid, { routesCreated: r.length }).catch(() => {});
+          if (isOwnProfile && currentUserId) {
+            syncUserStats(currentUserId, { routesCreated: r.length }).catch(() => {});
           }
         })
         .finally(() => setLoadingRoutes(false));
@@ -99,7 +100,7 @@ export default function ProfilePage() {
     } else {
       setLoadingRoutes(false);
     }
-  }, [targetUserId, activeTab, isOwnProfile, profile?.savedRoutes]);
+  }, [targetUserId, activeTab, isOwnProfile, profile?.savedRoutes, currentUserId]);
 
   const handleEditSave = useCallback(async ({ displayName, bio, avatarFile }) => {
     const updates = { displayName, bio };
