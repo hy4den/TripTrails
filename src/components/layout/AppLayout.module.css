@@ -7,3 +7,9 @@
 .main {
   flex: 1;
 }
+
+.pageLoader {
+  padding: var(--space-8);
+  color: var(--color-text-secondary);
+  text-align: center;
+}

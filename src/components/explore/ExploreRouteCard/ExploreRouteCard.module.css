@@ -3,11 +3,12 @@
   flex-direction: column;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   overflow: hidden;
   text-decoration: none;
   color: inherit;
   transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+  min-height: 100%;
 }
 
 .card:hover {
@@ -47,10 +48,13 @@
   background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%);
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
 }
 
-.daysBadge {
+.daysBadge,
+.ratingBadge {
   display: flex;
   align-items: center;
   gap: var(--space-1);
@@ -63,11 +67,16 @@
   backdrop-filter: blur(4px);
 }
 
+.ratingBadge {
+  background-color: rgba(245, 158, 11, 0.9);
+}
+
 .cardBody {
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  flex: 1;
 }
 
 .routeTitle {
@@ -80,7 +89,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .location {
@@ -91,6 +100,18 @@
   color: var(--color-primary);
   font-weight: 500;
   margin: 0;
+}
+
+.description {
+  display: -webkit-box;
+  min-height: 2.6em;
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .authorRow {
@@ -127,6 +148,7 @@
 .statsRow {
   display: flex;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .statItem {
@@ -139,10 +161,12 @@
 
 .engagementRow {
   display: flex;
+  align-items: center;
   gap: var(--space-3);
   padding-top: var(--space-2);
   border-top: 1px solid var(--color-border-light);
   margin-top: var(--space-1);
+  min-height: 30px;
 }
 
 .engItem {
@@ -151,4 +175,14 @@
   gap: var(--space-1);
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+}
+
+.openRoute {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
 }

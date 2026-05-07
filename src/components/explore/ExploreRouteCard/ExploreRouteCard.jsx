@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMap, FiMapPin, FiCalendar, FiHeart, FiStar, FiBookmark, FiDollarSign } from 'react-icons/fi';
+import { FiArrowRight, FiMap, FiMapPin, FiCalendar, FiHeart, FiStar, FiBookmark, FiDollarSign } from 'react-icons/fi';
 import { getCurrencySymbol } from '../../../utils/constants';
 import styles from './ExploreRouteCard.module.css';
 
@@ -11,6 +11,9 @@ export default function ExploreRouteCard({ route }) {
   const [imgError, setImgError] = useState(false);
 
   const locationText = [location.city, location.country].filter(Boolean).join(', ');
+  const budgetText = meta.totalBudget > 0
+    ? `${getCurrencySymbol(meta.currency || 'TRY')}${Number(meta.totalBudget).toLocaleString('tr-TR')}`
+    : null;
 
   return (
     <Link to={`/routes/${route.id}`} className={styles.card}>
@@ -32,6 +35,12 @@ export default function ExploreRouteCard({ route }) {
             <FiCalendar size={11} />
             {meta.totalDays || 0} gün
           </div>
+          {engagement.averageRating > 0 && (
+            <div className={styles.ratingBadge}>
+              <FiStar size={11} />
+              {engagement.averageRating.toFixed(1)}
+            </div>
+          )}
         </div>
       </div>
 
@@ -43,6 +52,10 @@ export default function ExploreRouteCard({ route }) {
             <FiMapPin size={12} />
             {locationText}
           </p>
+        )}
+
+        {route.description && (
+          <p className={styles.description}>{route.description}</p>
         )}
 
         <div className={styles.authorRow}>
@@ -61,10 +74,10 @@ export default function ExploreRouteCard({ route }) {
             <FiMapPin size={11} />
             {meta.totalPins || 0} pin
           </span>
-          {meta.totalBudget > 0 && (
+          {budgetText && (
             <span className={styles.statItem}>
               <FiDollarSign size={11} />
-              {getCurrencySymbol(meta.currency || 'TRY')}{meta.totalBudget}
+              {budgetText}
             </span>
           )}
         </div>
@@ -88,6 +101,10 @@ export default function ExploreRouteCard({ route }) {
               {engagement.averageRating.toFixed(1)}
             </span>
           )}
+          <span className={styles.openRoute}>
+            İncele
+            <FiArrowRight size={12} />
+          </span>
         </div>
       </div>
     </Link>

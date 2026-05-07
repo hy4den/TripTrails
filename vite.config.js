@@ -22,16 +22,31 @@ function localUploadPlugin() {
 
           const { fileName, filePath: uploadPath, fileData } = JSON.parse(body);
 
+          const safeUploadPath = path.normalize(uploadPath || '').replace(/^(\.\.(\/|\\|$))+/, '');
+          const safeFileName = path.basename(fileName || '');
+          if (!safeUploadPath || !safeFileName || path.isAbsolute(safeUploadPath)) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: 'Invalid upload path' }));
+            return;
+          }
+
           const base64Data = fileData.split(',')[1];
           const buffer = Buffer.from(base64Data, 'base64');
 
-          const uploadDir = path.join(process.cwd(), 'public', 'uploads', uploadPath);
+          const uploadsRoot = path.join(process.cwd(), 'public', 'uploads');
+          const uploadDir = path.join(uploadsRoot, safeUploadPath);
+          if (!uploadDir.startsWith(uploadsRoot + path.sep)) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: 'Invalid upload path' }));
+            return;
+          }
+
           fs.mkdirSync(uploadDir, { recursive: true });
 
-          const fullPath = path.join(uploadDir, fileName);
+          const fullPath = path.join(uploadDir, safeFileName);
           fs.writeFileSync(fullPath, buffer);
 
-          const url = `/uploads/${uploadPath}/${fileName}`;
+          const url = `/uploads/${safeUploadPath.split(path.sep).join('/')}/${safeFileName}`;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ url }));
         } catch (err) {

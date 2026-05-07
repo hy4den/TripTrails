@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { FiCompass } from 'react-icons/fi';
+import { FiCompass, FiMapPin, FiRefreshCw, FiTrendingUp } from 'react-icons/fi';
 import { getPublishedRoutesPage } from '../../services/routeService';
 import { toUSD } from '../../utils/constants';
 import SearchBar from '../../components/explore/SearchBar/SearchBar';
@@ -126,13 +126,89 @@ export default function ExplorePage() {
     [routes, searchQuery, filters]
   );
 
+  const stats = useMemo(() => {
+    const countries = new Set(routes.map((route) => route.location?.country).filter(Boolean));
+    const avgDays = routes.length
+      ? Math.max(1, Math.round(routes.reduce((sum, route) => sum + (route.metadata?.totalDays || 0), 0) / routes.length))
+      : 0;
+    const topRoute = routes.reduce((best, route) => {
+      if (!best) return route;
+      return (route.engagement?.likes || 0) > (best.engagement?.likes || 0) ? route : best;
+    }, null);
+
+    return {
+      countries: countries.size,
+      avgDays,
+      topRouteTitle: topRoute?.title || 'Henüz veri yok',
+    };
+  }, [routes]);
+
+  const hasActiveCriteria = Boolean(
+    searchQuery
+    || filters.country
+    || filters.city
+    || filters.minDays
+    || filters.maxDays
+    || filters.minBudget
+    || filters.maxBudget
+    || filters.budgetCurrency
+    || filters.sortBy !== 'newest'
+  );
+
+  const resetExplore = () => {
+    setSearchQuery('');
+    setFilters(DEFAULT_FILTERS);
+  };
+
   const showLoadMore = hasMore && !searchQuery && filters.sortBy === 'newest' &&
     !filters.country && !filters.city && !filters.minDays && !filters.maxDays &&
     !filters.minBudget && !filters.maxBudget && !filters.budgetCurrency;
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.pageTitle}>Rotaları Keşfet</h1>
+      <header className={styles.pageHeader}>
+        <div>
+          <span className={styles.eyebrow}>
+            <FiCompass size={15} />
+            Gezgin rotaları
+          </span>
+          <h1 className={styles.pageTitle}>Rotaları Keşfet</h1>
+          <p className={styles.pageSubtitle}>
+            Gün, bütçe ve şehre göre filtrele; sana en uygun seyahat planını hızlıca bul.
+          </p>
+        </div>
+        <div className={styles.headerStats}>
+          <div className={styles.headerStat}>
+            <strong>{routes.length}</strong>
+            <span>rota</span>
+          </div>
+          <div className={styles.headerStat}>
+            <strong>{stats.countries}</strong>
+            <span>ülke</span>
+          </div>
+          <div className={styles.headerStat}>
+            <strong>{stats.avgDays}</strong>
+            <span>ort. gün</span>
+          </div>
+        </div>
+      </header>
+
+      <div className={styles.insightRow}>
+        <div className={styles.insight}>
+          <FiTrendingUp size={17} />
+          <span>Öne çıkan: <strong>{stats.topRouteTitle}</strong></span>
+        </div>
+        <div className={styles.insight}>
+          <FiMapPin size={17} />
+          <span>{filteredRoutes.length} sonuç gösteriliyor</span>
+        </div>
+        {hasActiveCriteria && (
+          <button className={styles.resetBtn} type="button" onClick={resetExplore}>
+            <FiRefreshCw size={15} />
+            Sıfırla
+          </button>
+        )}
+      </div>
 
       <div className={styles.controls}>
         <SearchBar value={searchQuery} onChange={setSearchQuery} />

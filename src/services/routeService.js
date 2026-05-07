@@ -1,5 +1,5 @@
 import {
-  doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc,
+  doc, getDoc, getDocs, updateDoc,
   collection, query, where, orderBy, limit, startAfter,
   serverTimestamp, writeBatch, increment, arrayUnion,
 } from 'firebase/firestore';
@@ -95,6 +95,9 @@ export async function updateRoute(routeId, user, routeState) {
     days: days.map((d) => ({ dayNumber: d.dayNumber, title: d.title || '' })),
     'location.city': city || '',
     'location.country': country || '',
+    'location.coordinates': pins.length > 0
+      ? { lat: pins[0].coordinates.lat, lng: pins[0].coordinates.lng }
+      : null,
     'metadata.totalDays': days.length,
     'metadata.totalPins': pins.length,
     'metadata.totalBudget': totalBudget,
